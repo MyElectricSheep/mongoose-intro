@@ -1,0 +1,53 @@
+GET http://localhost:3000/
+
+### Create a new trainer
+
+POST http://localhost:3000/trainers
+Content-Type: application/json
+
+{
+    "first_name": "Ash",
+    "last_name": "Ketchum",
+    "class_type": "Champion"
+}
+
+### Get all trainers
+
+GET http://localhost:3000/trainers
+
+### Get one trainer
+
+GET http://localhost:3000/trainers/62cc5d4755a58bf9a5696833
+
+### Patch one trainer
+
+PATCH http://localhost:3000/trainers/62cc5d4755a58bf9a5696833
+Content-Type: application/json
+
+{
+    "key": "last_name",
+    "value": "Ketchum"
+}
+
+### Update one trainer
+
+PUT http://localhost:3000/trainers/62cc5d4755a58bf9a5696833
+Content-Type: application/json
+
+{
+    "first_name": "Daniel",
+    "last_name": "Garcia",
+    "class_type": "Champion"
+}
+
+### Delete one trainer
+DELETE http://localhost:3000/trainers/62cc5d4755a58bf9a5696833
+
+### Delete many trainers (with a filter)
+DELETE http://localhost:3000/trainers
+Content-Type: application/json
+
+{
+    "key": "last_name",
+    "value": "Ketchum"
+}
