@@ -1,8 +1,10 @@
-GET http://localhost:3000/
+@id = 62cefbb1f4e8f428e901e18f
+@host = http://localhost:3000
+
 
 ### Create a new trainer
 
-POST http://localhost:3000/trainers
+POST {{host}}/trainers
 Content-Type: application/json
 
 {
@@ -13,25 +15,25 @@ Content-Type: application/json
 
 ### Get all trainers
 
-GET http://localhost:3000/trainers
+GET {{host}}/trainers
 
 ### Get one trainer
 
-GET http://localhost:3000/trainers/62cc5d4755a58bf9a5696833
+GET {{host}}/trainers/{{id}}
 
 ### Patch one trainer
 
-PATCH http://localhost:3000/trainers/62cc5d4755a58bf9a5696833
+PATCH {{host}}/trainers/{{id}}
 Content-Type: application/json
 
 {
     "key": "last_name",
-    "value": "Ketchum"
+    "value": "De Lima"
 }
 
 ### Update one trainer
 
-PUT http://localhost:3000/trainers/62cc5d4755a58bf9a5696833
+PUT {{host}}/trainers/{{id}}
 Content-Type: application/json
 
 {
@@ -41,10 +43,10 @@ Content-Type: application/json
 }
 
 ### Delete one trainer
-DELETE http://localhost:3000/trainers/62cc5d4755a58bf9a5696833
+DELETE {{host}}/trainers/{{id}}
 
 ### Delete many trainers (with a filter)
-DELETE http://localhost:3000/trainers
+DELETE {{host}}/trainers
 Content-Type: application/json
 
 {

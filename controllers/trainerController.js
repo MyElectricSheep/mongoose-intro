@@ -1,14 +1,32 @@
-const express = require("express");
-const router = express.Router();
 const Trainer = require("../models/Trainer");
+const Team = require("../models/Team");
 
-router.post("/trainers", async (req, res) => {
+const list_trainers = async (req, res) => {
+  try {
+    const trainers = await Trainer.find({});
+    res.json(trainers);
+  } catch (error) {
+    console.log(error.message);
+  }
+};
+
+const find_trainer = async (req, res) => {
+  const { id } = req.params;
+
+  try {
+    const trainer = await Trainer.findById(id);
+    if (!trainer) return res.status(404).send("No such trainer");
+
+    const team = await Team.findOne({ members: trainer._id });
+
+    res.json({ trainer, team });
+  } catch (error) {
+    console.log(error.message);
+  }
+};
+
+const create_trainer = async (req, res) => {
   const { first_name, last_name, class_type } = req.body;
-  // console.log({ first_name, last_name, class_type });
-
-  // Trainer.create({ first_name, last_name, class_type })
-  //   .then((data) => res.json(data))
-  //   .catch((e) => console.log(e.message));
 
   try {
     const newTrainer = await Trainer.create({
@@ -20,30 +38,9 @@ router.post("/trainers", async (req, res) => {
   } catch (error) {
     console.log(error.message);
   }
-});
+};
 
-router.get("/trainers", async (req, res) => {
-  try {
-    const trainers = await Trainer.find({});
-    res.json(trainers);
-  } catch (error) {
-    console.log(error.message);
-  }
-});
-
-router.get("/trainers/:id", async (req, res) => {
-  const { id } = req.params;
-
-  try {
-    const trainer = await Trainer.findById(id);
-    if (!trainer) return res.status(404).send("No such trainer");
-    res.json(trainer);
-  } catch (error) {
-    console.log(error.message);
-  }
-});
-
-router.patch("/trainers/:id", async (req, res) => {
+const partially_update_trainer = async (req, res) => {
   const { id } = req.params;
   const { key, value } = req.body;
   try {
@@ -57,9 +54,9 @@ router.patch("/trainers/:id", async (req, res) => {
   } catch (error) {
     console.log(error.message);
   }
-});
+};
 
-router.put("/trainers/:id", async (req, res) => {
+const fully_update_trainer = async (req, res) => {
   const { id } = req.params;
   try {
     const updatedTrainer = await Trainer.findByIdAndUpdate(id, req.body, {
@@ -71,9 +68,9 @@ router.put("/trainers/:id", async (req, res) => {
   } catch (error) {
     console.log(error.message);
   }
-});
+};
 
-router.delete("/trainers/:id", async (req, res) => {
+const delete_trainer = async (req, res) => {
   const { id } = req.params;
   try {
     const deletedTrainer = await Trainer.findOneAndDelete({ _id: id });
@@ -82,9 +79,9 @@ router.delete("/trainers/:id", async (req, res) => {
   } catch (error) {
     console.log(error.message);
   }
-});
+};
 
-router.delete("/trainers", async (req, res) => {
+const delete_trainers = async (req, res) => {
   const { key, value } = req.body;
   try {
     if (!key || !value) {
@@ -96,6 +93,14 @@ router.delete("/trainers", async (req, res) => {
   } catch (error) {
     console.log(error.message);
   }
-});
+};
 
-module.exports = router;
+module.exports = {
+  list_trainers,
+  find_trainer,
+  create_trainer,
+  partially_update_trainer,
+  fully_update_trainer,
+  delete_trainer,
+  delete_trainers,
+};

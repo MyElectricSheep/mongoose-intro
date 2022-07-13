@@ -1,0 +1,41 @@
+@host = http://localhost:3000
+
+### Get all teams
+GET {{host}}/teams
+
+### Create multiple teams
+
+POST {{host}}/teams
+Content-Type: application/json
+
+[
+   {
+       "name": "Valor",
+       "mascot": "Moltres",
+       "color": "red"
+   },
+   {
+       "name": "Mystic",
+       "mascot": "Articuno",
+       "color": "blue"
+   },
+   {
+       "name": "Instinct",
+       "mascot": "Zapdos",
+       "color": "yellow"
+   }
+]
+
+### Add a member to a team
+
+PATCH {{host}}/teams/members/add
+Content-Type: application/json
+
+{
+    "teamId": "62cf0031a8a712d3ae892794",
+    "teammateId": "62cefbb1f4e8f428e901e18f"
+}
+
+### Get a team AND all members of that team
+
+GET {{host}}/teams/Valor
