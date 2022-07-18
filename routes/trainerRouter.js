@@ -1,6 +1,9 @@
 const express = require("express");
 const router = express.Router();
 
+const authorizeTrainer = require("../middlewares/authorizeTrainer");
+const selfModificationOnly = require("../middlewares/selfModificationOnly");
+
 const {
   list_trainers,
   find_trainer,
@@ -21,15 +24,15 @@ const {
 
 router
   .route("/")
-  .get(list_trainers)
+  .get(authorizeTrainer, list_trainers)
   .post(create_trainer)
   .delete(delete_trainers);
 
 router
   .route("/:id")
   .get(find_trainer)
-  .patch(partially_update_trainer)
-  .put(fully_update_trainer)
-  .delete(delete_trainer);
+  .patch(authorizeTrainer, selfModificationOnly, partially_update_trainer)
+  .put(authorizeTrainer, selfModificationOnly, fully_update_trainer)
+  .delete(authorizeTrainer, selfModificationOnly, delete_trainer);
 
 module.exports = router;

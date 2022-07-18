@@ -1,9 +1,12 @@
 const Trainer = require("../models/Trainer");
 const Team = require("../models/Team");
+const bcrypt = require("bcrypt");
 
 const list_trainers = async (req, res) => {
+  // console.log(req.headers);
+  // console.log(req.trainer);
   try {
-    const trainers = await Trainer.find({});
+    const trainers = await Trainer.find({}, { password: 0 });
     res.json(trainers);
   } catch (error) {
     console.log(error.message);
@@ -26,15 +29,26 @@ const find_trainer = async (req, res) => {
 };
 
 const create_trainer = async (req, res) => {
-  const { first_name, last_name, class_type } = req.body;
+  const { first_name, last_name, class_type, email, password } = req.body;
+
+  console.time("password hashing with salt");
+  const hashedPassword = await bcrypt.hash(password, 10);
+  console.timeEnd("password hashing with salt");
 
   try {
     const newTrainer = await Trainer.create({
       first_name,
       last_name,
       class_type,
+      email,
+      password: hashedPassword,
     });
-    res.json(newTrainer);
+
+    const token = newTrainer.createToken();
+
+    res
+      .set("x-authorization-token", token)
+      .json({ _id: newTrainer._id, email: newTrainer.email });
   } catch (error) {
     console.log(error.message);
   }

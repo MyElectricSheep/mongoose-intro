@@ -1,21 +1,23 @@
-@id = 62cefbb1f4e8f428e901e18f
+@id = 62d59984f160f426bf9da173
 @host = http://localhost:3000
-
+@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MmQ1YTY3NzNjNWViZTY3ZTYyMTljY2EiLCJpYXQiOjE2NTgxNzEyODQsImV4cCI6MTY1ODE3NDg4NH0.FUYZc3INk_UkVjMLl-6DPovp0vH1XtvGLtWsZH2QtdA
 
 ### Create a new trainer
-
 POST {{host}}/trainers
 Content-Type: application/json
 
 {
     "first_name": "Ash",
     "last_name": "Ketchum",
-    "class_type": "Champion"
+    "class_type": "Champion",
+    "email": "ash5@pikachu.com",
+    "password": "PikaPikaKetchup"
 }
 
 ### Get all trainers
 
 GET {{host}}/trainers
+Authorization: Bearer {{token}}
 
 ### Get one trainer
 
@@ -24,6 +26,7 @@ GET {{host}}/trainers/{{id}}
 ### Patch one trainer
 
 PATCH {{host}}/trainers/{{id}}
+Authorization: Bearer {{token}}
 Content-Type: application/json
 
 {
@@ -34,6 +37,7 @@ Content-Type: application/json
 ### Update one trainer
 
 PUT {{host}}/trainers/{{id}}
+Authorization: Bearer {{token}}
 Content-Type: application/json
 
 {
@@ -44,7 +48,7 @@ Content-Type: application/json
 
 ### Delete one trainer
 DELETE {{host}}/trainers/{{id}}
-
+Authorization: Bearer {{token}}
 ### Delete many trainers (with a filter)
 DELETE {{host}}/trainers
 Content-Type: application/json
